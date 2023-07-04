@@ -12,6 +12,18 @@ class ChessBoard:
         self.canvas.pack(fill="both", expand=True)
         self.canvas.bind("<Configure>", self.draw_board)
 
+        # Define the initial board positions
+        self.board = [
+            ['r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'],
+            ['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            ['P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'],
+            ['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R']
+        ]
+
         self.window.mainloop()
 
     def draw_board(self, event=None):
@@ -26,7 +38,7 @@ class ChessBoard:
         square_width = width // self.cols
         square_height = height // self.rows
 
-        # Draw the chessboard
+        # Draw the chessboard and pieces
         for row in range(self.rows):
             for col in range(self.cols):
                 if (row + col) % 2 == 0:
@@ -38,6 +50,15 @@ class ChessBoard:
                     (col + 1) * square_width, (row + 1) * square_height,
                     fill=color
                 )
+                piece = self.board[row][col]
+                if piece != ' ':
+                    self.canvas.create_text(
+                        col * square_width + square_width // 2,
+                        row * square_height + square_height // 2,
+                        text=piece,
+                        font=("Arial", square_height // 2),
+                        fill="black"
+                    )
 
         self.canvas.bind("<Button-1>", self.square_clicked)
 
